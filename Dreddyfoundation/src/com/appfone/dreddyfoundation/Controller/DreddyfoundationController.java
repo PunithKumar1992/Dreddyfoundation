@@ -33,23 +33,8 @@ public class DreddyfoundationController {
 	private HttpSession sessionn;
 
 	
-	@RequestMapping(value="/")
-	public ModelAndView controller()
-	{
-		System.out.println("in controller");
-		ModelAndView mv= new ModelAndView();
-		return mv;
-		
-	}
 	
-	@RequestMapping(value="index")
-	public ModelAndView indexController()
-	{
-		System.out.println("in controller");
-		ModelAndView mv = new ModelAndView();
-		return mv;
-	}
-	/*@RequestMapping(value="/")
+	@RequestMapping(value="/")
 	public ModelAndView Controller()
 	{
 		List<Dreddyfbanner> list = adminbannerservice.getallbannerlist();
@@ -964,6 +949,6 @@ public class DreddyfoundationController {
 		System.out.println(quotes);
 		return"redirect:/adminquotes";
 		
-	}*/
+	}
 
 }
