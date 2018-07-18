@@ -1,8 +1,11 @@
 package com.appfone.dreddyfoundation.Controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.appfone.dreddyfoundation.Pojo.Dreddyfadminregiestration;
+import com.appfone.dreddyfoundation.Pojo.Dreddyfarticle;
 import com.appfone.dreddyfoundation.Pojo.Dreddyfbanner;
 import com.appfone.dreddyfoundation.Pojo.Dreddyfgallarey;
+import com.appfone.dreddyfoundation.Pojo.Dreddyfquotes;
 import com.appfone.dreddyfoundation.Service.AdminLoginService;
+import com.appfone.dreddyfoundation.Service.AdminQuotesService;
 import com.appfone.dreddyfoundation.Service.AdminRecoveryService;
 import com.appfone.dreddyfoundation.Service.AdminactiveService;
+import com.appfone.dreddyfoundation.Service.AdminarticleService;
 import com.appfone.dreddyfoundation.Service.AdminbannerService;
 import com.appfone.dreddyfoundation.Service.AdmingalleryService;
 import com.appfone.dreddyfoundation.util.Emailutility;
@@ -38,8 +45,10 @@ public class DreddyfoundationController {
 	public ModelAndView Controller()
 	{
 		List<Dreddyfbanner> list = adminbannerservice.getallbannerlist();
+		List<Dreddyfquotes> qlist = quoteservice.getallQuotes();
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("bannerlist", list);
+		mv.addObject("quoteslist", qlist);
 		mv.setViewName("index");
 		return mv;
 	}
@@ -48,8 +57,10 @@ public class DreddyfoundationController {
 	public ModelAndView indexController()
 	{
 		List<Dreddyfbanner> list = adminbannerservice.getallbannerlist();
+		List<Dreddyfquotes> qlist = quoteservice.getallQuotes();
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("bannerlist", list);
+		mv.addObject("quoteslist", qlist);
 		mv.setViewName("index");
 		return mv;
 	}
@@ -935,20 +946,172 @@ public class DreddyfoundationController {
 			return mv;
 		}
 		
-		
+		Dreddyfquotes nquotes = new Dreddyfquotes();
+		List<Dreddyfquotes> list = quoteservice.getallQuotes();
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("nquotes", nquotes);
+		mv.addObject("quoteslist", list);
 		mv.setViewName("adminquotes");
 		return mv;
 		
 	}
 	
+	@Autowired
+	private AdminQuotesService quoteservice;
+	
 	@RequestMapping(value="/saveadminquotes")
-	public String saveadminquotesController(@RequestParam("quotes")String quotes)
+	public String saveadminquotesController(@ModelAttribute("nquotes") Dreddyfquotes nquotes)
 	{
+		if((sessionn.getAttribute("activeuser"))==null)
+		{
+			return"redirect:/admin";
+		}
+		quoteservice.saveQuotes(nquotes);
+		return"redirect:/adminquotes";
+	}
+	
+	@RequestMapping(value="/deleteadminquotes")
+	public String deleteadminquotesController(@RequestParam("quotes_id")int quote_id)
+	{
+		if((sessionn.getAttribute("activeuser"))==null)
+		{
+			return"redirect:/admin";
+		}
 		
-		System.out.println(quotes);
+		quoteservice.deleteQuoteById(quote_id);
 		return"redirect:/adminquotes";
 		
 	}
+	
+	
+	@Autowired
+	private AdminarticleService articleservice;
+	
+	@RequestMapping(value="/adminarticle")
+	public ModelAndView adminarticleController()
+	{
+		if((sessionn.getAttribute("activeuser"))==null)
+		{
+			ModelAndView mv= new ModelAndView();
+			mv.setViewName("adminlogin");
+			return mv;
+		}
+		Dreddyfarticle adminarticle= new Dreddyfarticle();
+		ModelAndView mv = new ModelAndView();
+		List<Dreddyfarticle>list = articleservice.getallarticle();
+		mv.addObject("adminarticle", adminarticle);
+		mv.addObject("adminarticlelist", list);
+		mv.setViewName("adminarticle");
+		return mv;
+	}
+	
+	
+	@RequestMapping(value="/saveadminarticle")
+	public String saveadminarticleController(@ModelAttribute("adminarticle")Dreddyfarticle articles,@RequestParam Map<String, String>reqparam)
+	{
+		String caption =articles.getArticle_caption();
+		caption = "<p style='text-align: justify;text-decoration: none;color: #f57c20;'>"+caption +"</p>";
+		
+		System.out.println("save controller");
+		if((sessionn.getAttribute("activeuser"))==null)
+		{
+			return "redirect:/admin.html";
+		}
+		String artcounter=reqparam.get("artcount");
+		String article_detail="";
+		int artcount=Integer.parseInt(artcounter);
+		System.out.println("article text area count is  " +artcount);
+		String article[] = new String[artcount];
+		String param;
+		String temp;
+		for(int i=0;i<artcount;i++)
+		{
+			param="article"+(i+1);
+			temp=reqparam.get(param);
+			temp="<p style='text-align: justify;'>"+temp+"</p><br/>";
+			article[i]=temp;
+			
+			
+		}
+		for(int i=0;i<artcount;i++)
+		{
+			article_detail=article_detail+article[i];
+		}
+		
+		articles.setArticle_detail(article_detail);
+		System.out.println("save controller");
+		
+		
+		 MultipartFile file = articles.getArticlegridfile(); 
+		  String fileName = file.getOriginalFilename();  
+		  System.out.println("filename is " +fileName);
+		  articles.setArticle_gridimage(fileName);
+		   String uploadPath = context.getRealPath("") + File.separator + "images" + File.separator +"articlegridimages"+ File.separator;
+		   System.out.println("uploadpath is" +uploadPath);
+		   File targetFile = new File(uploadPath, fileName);  
+		  try {
+			file.transferTo(targetFile);
+			System.out.println("transfer starts");
+		} catch (IllegalStateException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		  
+		  MultipartFile file2= articles.getArticlefile();
+		  String fileName2=file2.getOriginalFilename();
+		  System.out.println("filename is " +fileName2);
+		  articles.setArticle_image(fileName2);
+		   String uploadPath2 = context.getRealPath("") + File.separator + "images" + File.separator +"articleimages"+ File.separator;
+		   System.out.println("uploadpath is" +uploadPath2);
+		  File targetFile2 = new File(uploadPath2, fileName2);  
+		  try {
+			file2.transferTo(targetFile2);
+			System.out.println("transfer starts");
+		} catch (IllegalStateException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		  
+		  articles.setArticle_caption(caption);
+		  String grid = articles.getArticle_brief();
+		  grid="<p style='text-align: justify;'>"+grid+"</p>";
+		  articles.setArticle_brief(grid);
+		  articles.setArticle_comments(0);
+	  articleservice.saveArticle(articles);
+		return "redirect:/adminarticle.html";
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value="/deleteadminarticle")
+	public String deleteadminarticleController(@RequestParam("article_id")int article_id,@RequestParam("article_image")String article_image,@RequestParam("article_gridimage")String article_gridimage)
+	{
+		if((sessionn.getAttribute("activeuser"))==null)
+		{
+			return"redirect:/admin";
+		}
+		String floderpath= context.getRealPath("")+File.separator+"images"+File.separator+"articleimages"+File.separator;
+		System.out.println("floder path is " +floderpath);
+		File delfile=new File(floderpath,article_image);
+		delfile.delete();
+		
+		String floderpath1= context.getRealPath("")+File.separator+"images"+File.separator+"articlegridimages"+File.separator;
+		System.out.println("floder path is " +floderpath1);
+		File delfile1=new File(floderpath1,article_gridimage);
+		delfile1.delete();
+		articleservice.deletearticle(article_id);
+		return "redirect:/adminarticle.html";
+		
+		
+	}
+	
 
 }

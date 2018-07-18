@@ -654,44 +654,18 @@ to the child labor prohibition act</p>
             <div class="row">
                 <div class="col-md-8 text-center col-md-offset-2">
                     <div class="donator-carousel">
+                    <c:forEach var="qlist" items="${quoteslist}">
                         <div class="signle-donartor">
                             <div class="donator-picture">
                                 <img src="images/newimg.png" alt="donator image">
                             </div>
                             <div class="donator-content">
                                 <h4>dayananda reddy</h4>
-                                <p><i class="icofont icofont-quote-left"></i> The most powerful force against corruption is our voters, who can elect honest & responsible representatives. It is your tax  paid money being robbed, please vote against corruption.,, <i class="icofont icofont-quote-right"></i></p>
+                                <p><i class="icofont icofont-quote-left"></i>${qlist.quote_msg}<i class="icofont icofont-quote-right"></i></p>
                             </div>
                         </div>
-                        <div class="signle-donartor">
-                            <div class="donator-picture">
-                                <img src="images/newimg.png" alt="donator image">
-                            </div>
-                            <div class="donator-content">
-                              <h4>dayananda reddy</h4>
-                                <p><i class="icofont icofont-quote-left"></i>If we eradicate corruption in 
-our nation; nobody would sleep
-hungry, nobody would be homeless,
-our government hospitals & 
-schools would bean the private
-ones ,every child would be getting
-quality education.,, <i class="icofont icofont-quote-right"></i></p>
-                            </div>
-                        </div>
-                        <div class="signle-donartor">
-                            <div class="donator-picture">
-                                <img src="images/newimg.png" alt="donator image">
-                            </div>
-                            <div class="donator-content">
-                             <h4>dayananda reddy></h4>
-                                <p><i class="icofont icofont-quote-left"></i>The most powerful force against
-corruption is our voters, who 
-can elect honest & responsible 
-representatives. It is your tax 
-paid money being robbed,
-please vote against corruption.,,<i class="icofont icofont-quote-right"></i></p>
-                            </div>
-                        </div>
+                       </c:forEach>
+                       
                     </div>
                 </div>
             </div>
@@ -751,7 +725,7 @@ please vote against corruption.,,<i class="icofont icofont-quote-right"></i></p>
                         </div>
                         <div class="widget-one-body">
                             <p>With the new day comes new strength and new thoughts</p>
-                            <a href="#" class="boxed-btn">Read More <i class="icofont icofont-curved-double-right"></i></a>
+                            <a href="about" class="boxed-btn">Read More <i class="icofont icofont-curved-double-right"></i></a>
                             <div class="footer-social-links">
                                <a href="https://www.facebook.com/BTdayanandareddy/"><i class="icofont icofont-social-facebook"></i></a>
                                         <a href="https://twitter.com/btdayanandreddy"><i class="icofont icofont-social-twitter"></i></a>

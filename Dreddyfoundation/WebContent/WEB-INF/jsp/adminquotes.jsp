@@ -162,28 +162,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </header>
                         <div class="panel-body">
                             <div >
-                                <form:form action="saveadminquotes" enctype="multipart/form-data"  method="post" modelAttribute="adminquotes">
+                                <form:form action="saveadminquotes" enctype="multipart/form-data"  method="post" modelAttribute="nquotes">
                                <div class="row">
                                <div class="col-md-12">
-                               			<!-- <div class="col-md-9">
-									<label style=" width: 50%; MARGIN-LEFT: 30%;padding: 0.25em;">Upload quotes Img</label>
-                                   <input type="file" name="quotesfile" accept=".jpg,.png,jpeg" onchange="Upload();" id="fileUpload"  value="" style=" width: 50%; MARGIN-LEFT: 30%;padding: 0.25em;margin-bottom:1%;">
-                                </div> -->
-                                <!-- <div class="col-md-9">
-                                 <i class="fa fa-plus" aria-hidden="true" value='Add Textinput' id='addButton' title="Add Text Input" style="margin-left: 30%;"></i>
-                                <i class="fa fa-times" aria-hidden="true"  value='Remove Textinput' id='removeButton' title="Remove Text Input"></i>
-                                <div id='TextBoxesGroup' style=" resize: none;width: 50%; MARGIN-LEFT: 30%;">
-									<div id="TextBoxDiv1" >
-									<input type="text" placeholder="quotes Message" name="article1" id="article1" style="width: 500.5px;"margin-top:1%;margin-bottom:2%;">
-									</div>
-										</div>
-                               
-                                </div> -->
+                               		
                                 <div class="col-md-9">
-                                <textarea rows="05" cols="55" placeholder="Describe yourself here..." name="quotes"  style="resize:none; margin-left: 20%;">
-                                
-                                </textarea>
-                                
+                                <form:textarea path="quote_msg" rows="05" cols="55" placeholder="Describe yourself here..." name="quotes"  style="resize:none; margin-left: 20%;"/>
                                 </div>
                                 
                                  <input type="hidden" id="artcount" name="artcount" value="1">
@@ -210,7 +194,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       <table class="table table-striped b-t b-light">
         <thead style="background-color: #e6e6ea;">
           <tr>
-            <th style="border-right: 1px solid gainsboro;">Quotes Image</th>
             <th style="border-right: 1px solid gainsboro;">Quotes Message</th>
             <th> Action</th>
 			
@@ -218,24 +201,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </thead>
         <tbody>
     
-    <c:forEach var="adminquoteslist" items="${adminquoteslist}">
+    <c:forEach var="adminquoteslist" items="${quoteslist}">
     <c:url var="deletequotes" value="deleteadminquotes">
-    <c:param name="quotes_id" value="${adminquoteslist.quotes_id}"></c:param>
-    <c:param name="quotes_image" value="${adminquoteslist.quotes_image}"></c:param>
-    
+    <c:param name="quotes_id" value="${adminquoteslist.quote_id}"></c:param>
     </c:url>
    
         <tr>
-            <td>
-	      <a class="example-image-link" href="images/quotesimages/${adminquoteslist.quotes_image}" data-lightbox="example-set" >		
-	      <img src="images/quotesimages/${adminquoteslist.quotes_image}" alt="" width="70%"/>
-	      </a>
-	
-			<!-- //gallery -->
-			</td>
-			<td> ${adminquoteslist.quotes_msg}</td>
+           
+			<td> ${adminquoteslist.quote_msg}</td>
 			
-	 <td><a href="${deletequotes}" onclick="return confirmActiondelete();"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+	 <td><a href="${deletequotes}" onclick="return confirmActiondelete();"><button type="button" class="btn btn-primary">Delete</button></a></td>
 	
 		 
 	</tr>

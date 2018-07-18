@@ -139,7 +139,7 @@
                    <div class="upcoming-event-wrapper">
                         <div class="col-md-4 col-sm-6">
                             <div class="single-post-wrapper">
-                                <div class="post-thumb event-post-bg-10">
+                                <div class="post-thumb event-post-bg-10" style="background-image: url('images/articlegridimages/blogimg5.jpg');">
                                     <span class="post-date"><strong>11</strong> May</span>
                                 </div>
                                 <div class="post-inner">
@@ -381,7 +381,7 @@
                         </div>
                         <div class="widget-one-body">
                             <p>With the new day comes new strength and new thoughts</p>
-                            <a href="#" class="boxed-btn">Read More <i class="icofont icofont-curved-double-right"></i></a>
+                            <a href="about" class="boxed-btn">Read More <i class="icofont icofont-curved-double-right"></i></a>
                             <div class="footer-social-links">
                                  <a href="https://www.facebook.com/BTdayanandareddy/"><i class="icofont icofont-social-facebook"></i></a>
                                         <a href="https://twitter.com/btdayanandreddy"><i class="icofont icofont-social-twitter"></i></a>
